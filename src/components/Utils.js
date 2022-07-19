@@ -771,14 +771,11 @@ const Utils = {
                     skipElement = true;
                     if (isMap) {
                         for (let key in resObj) {
-                            // console.log(key, resObj[key].value, resList[ind], resList[parseInt(ind)+1])
                             if (resObj[key].value === Hangul.assemble(resList[ind])) {
                                 preKey = key;
-                                // console.log(preKey)
                             }
                             else if (resObj[key].value == Hangul.assemble(resList[parseInt(ind)+1])) {
                                 postKey = key;
-                                // console.log(postKey, 'ENDDDD')
                             }
                         }
                         joinKey[resList2.length-1] = [preKey, postKey];
@@ -1025,7 +1022,6 @@ const Utils = {
 
                     let lastChar = msgSplit[idx-1][msgSplit[idx-1].length-1]; // msgSplit의 마지막 문자
                     let testRes = Utils.joinedSyllable(pre, letter, true, simplify); // 음절이 줄어들 수 있는 경우
-                    if (simplify && idx>msgSplit.length-3) {console.log(testRes)}
                     let testResXR = Utils.joinedSyllable(lastChar, letter, false); // 음절이 줄어들지 않게 부착하는 경우.
                     // 길이가 1일 때는 글자가 합쳐진 걸로 간주한다.
                     if (testRes.length ===1) {
