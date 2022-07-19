@@ -89,16 +89,6 @@ export default {
   components:{
 
   },
-  // data: function() {
-  //   return {
-  //     badWordsList: '',
-  //     normalWordsList: '',
-  //     macrosList: '',
-  //     inputSentence:'',
-  //     badWordResult: '',
-  //     filteredSentence: ''
-  //   }
-  // },
   props: {
   },
   setup(props) {
@@ -186,15 +176,15 @@ export default {
           break;
         }
         case 2: {
-          data.antispoofResult = Tetrapod.antispoof(data.antispoofResult);
+          data.antispoofResult = Tetrapod.antispoof(data.antispoofSentence);
           break;
         }
         case 3: {
-          data.pronounceResult = Tetrapod.engToKo(data.pronounceResult);
+          data.pronounceResult = Tetrapod.engToKo(data.pronounceSentence);
           break;
         }
         case 4: {
-          data.dropDoubleResult = Tetrapod.dropDouble(data.dropDoubleResult);
+          data.dropDoubleResult = Tetrapod.dropDouble(data.dropDoubleSentence);
           break;
         }
       }
