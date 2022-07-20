@@ -8,7 +8,9 @@
     </div>
     <div class="tab-contents">
       <div class="tab-contents-1 selected">
-        <h3 class="tab-contents-1-title">비속어 목록</h3>
+        <h3 class="tab-contents-1-title">비속어 데이터</h3>
+        <textarea class="tab-contents-1-text bad-words" v-model="data.parsedBadWordsList" readonly></textarea>
+        <h3 class="tab-contents-1-title">비속어 원본</h3>
         <textarea class="tab-contents-1-text bad-words" v-model="data.badWordsList" readonly></textarea>
         <h3 class="tab-contents-1-title">정상단어 목록</h3>
         <textarea class="tab-contents-1-text normal-words" v-model="data.normalWordsList" readonly></textarea>
@@ -98,6 +100,7 @@ export default {
       badWordsList: '',
       normalWordsList: '',
       macrosList: '',
+      parsedBadWordsList: '',
       inputSentence:'',
       badWordResult: '',
       filteredSentence: '',
@@ -116,9 +119,11 @@ export default {
     // 데이터 불러오기
     const recall = () => {
       console.log('RECALL');
-      data.badWordsList = JSON.stringify(obj.originalBadWordsData);
-      data.normalWordsList = JSON.stringify(obj.originalNormalWordsData);
-      data.macrosList = JSON.stringify(obj.badWordMacros);
+      data.badWordsList = JSON.stringify(obj.originalBadWordsData, null, 2);
+      data.normalWordsList = JSON.stringify(obj.originalNormalWordsData, null, 2);
+      data.macrosList = JSON.stringify(obj.badWordMacros, null, 2);
+      let parsedData = obj.getLoadedData().badWords;
+      data.parsedBadWordsList = JSON.stringify(parsedData, null, 2);
     }
 
     // 비속어 필터 작동
