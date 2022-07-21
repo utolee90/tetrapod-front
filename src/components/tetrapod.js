@@ -362,6 +362,8 @@ class Tetrapod {
     // 20220715 수정 - nativeFind와 유사한 형태로 결과 출력.
     find(message, needMultipleCheck=true, splitCheck=20, isStrong=this.dropDoubleCheck, recursive = true ) {
 
+        let initTime = new Date().getTime();
+
 
         // 결과 출력 방식
         let res = {
@@ -387,7 +389,7 @@ class Tetrapod {
         for (let idx =0; idx<messages.length; idx++) {
             adjustment = Math.floor(idx/2)*fullLimit + (idx%2)* halfLimit; // 문장 내 x의 보정 포지션 지정하기
             // 같은 비속어 키워드여도 여러 개 비속어 대응이 가능하므로 msgToMap을 이용해서 여러 개 찾아준다.
-            let curResult = this.nativeFind(Utils.msgToMap(messages[idx]), needMultipleCheck, true,false, false);
+            let curResult = this.nativeFind(Utils.msgToMap(messages[idx]), needMultipleCheck, true,false, true);
 
             // 비어있지 않을 때에만 처리하기
             if (curResult.originalFound.length>0) {
@@ -429,8 +431,11 @@ class Tetrapod {
             }
         }
 
+        console.log('type1-', new Date().getTime()-initTime);
+
         // isStrong 옵션이 있을 때에는 dropDouble한 메시지도 같이 검사한다.
         if(isStrong && (needMultipleCheck || res.positions.length ===0)) {
+            console.log('dropDouble Test')
             // 결과 추가
             let ddMap = Utils.dropDouble(message, true);
             let ddsMap = Utils.dropDouble(message, true, true);
@@ -481,6 +486,8 @@ class Tetrapod {
             }
 
             res = {...res, ...resPlus}; // 결과 합치기
+
+            console.log('type2-', new Date().getTime()-initTime);
         }
 
         // 반복 작업을 타입에 따라 콜백으로 처리
@@ -569,6 +576,8 @@ class Tetrapod {
                 newRes[ddKeyNameList[8]] = ddsKeyWord;
                 newRes[ddKeyNameList[9]] = ddsType;
             }
+
+            console.log('type3-', kind, new Date().getTime()-initTime);
             return newRes;
         }
 
@@ -987,29 +996,29 @@ class Tetrapod {
 
         let fixedMessageObject = this.find(newMessage, true, 20, this.dropDoubleCheck);
         let allPositions = this.dropDoubleCheck
-            ? [...fixedMessageObject.position, ...fixedMessageObject.ddPosition, ...fixedMessageObject.ddsPosition, fixedMessageObject.doubleEndPosition]
-            : [...fixedMessageObject.position, fixedMessageObject.doubleEndPosition];
+            ? [...fixedMessageObject.positions, ...fixedMessageObject.ddPositions, ...fixedMessageObject.ddsPositions, fixedMessageObject.doubleEndPositions]
+            : [...fixedMessageObject.positions, fixedMessageObject.doubleEndPositions];
         allPositions = allPositions.slice(-1)[0].length === 0 ? allPositions.slice(0, -1) : allPositions; // 마지막 열 길이가 0이면 비우기;
 
         // qwerty가 있을 때
         if (this.checkOptions.indexOf('qwerty') > -1) {
             allPositions = this.dropDoubleCheck
-                ? [...allPositions, ...fixedMessageObject.qwertyPosition, ...fixedMessageObject.qwertyDdPosition, ...fixedMessageObject.qwertyDdsPosition, fixedMessageObject.qwertyDoubleEndPosition]
-                : [...allPositions, ...fixedMessageObject.qwertyPosition, fixedMessageObject.qwertyDoubleEndPosition];
+                ? [...allPositions, ...fixedMessageObject.qwertyPositions, ...fixedMessageObject.qwertyDdPositions, ...fixedMessageObject.qwertyDdsPositions, fixedMessageObject.qwertyDoubleEndPositions]
+                : [...allPositions, ...fixedMessageObject.qwertyPositions, fixedMessageObject.qwertyDoubleEndPositions];
             allPositions = allPositions.slice(-1)[0].length === 0 ? allPositions.slice(0, -1) : allPositions; // 마지막 열 길이가 0이면 비우기;
         }
         // antispoof가 있을 때
         if (this.checkOptions.indexOf('antispoof') > -1) {
             allPositions = this.dropDoubleCheck
-                ? [...allPositions, ...fixedMessageObject.antispoofPosition, ...fixedMessageObject.antispoofDdPosition, ...fixedMessageObject.antispoofDdsPosition, fixedMessageObject.antispoofDoubleEndPosition]
-                : [...allPositions, ...fixedMessageObject.antispoofPosition, fixedMessageObject.antispoofDoubleEndPosition];
+                ? [...allPositions, ...fixedMessageObject.antispoofPositions, ...fixedMessageObject.antispoofDdPositions, ...fixedMessageObject.antispoofDdsPositions, fixedMessageObject.antispoofDoubleEndPositions]
+                : [...allPositions, ...fixedMessageObject.antispoofPositions, fixedMessageObject.antispoofDoubleEndPositions];
             allPositions = allPositions.slice(-1)[0].length === 0 ? allPositions.slice(0, -1) : allPositions; // 마지막 열 길이가 0이면 비우기;
         }
         // pronounce가 있을 때
         if (this.checkOptions.indexOf('pronounce') > -1) {
             allPositions = this.dropDoubleCheck
-                ? [...allPositions, ...fixedMessageObject.pronouncePosition, ...fixedMessageObject.pronounceDdPosition, ...fixedMessageObject.pronounceDdsPosition, fixedMessageObject.pronounceDoubleEndPosition]
-                : [...allPositions, ...fixedMessageObject.pronouncePosition, fixedMessageObject.pronounceDoubleEndPosition];
+                ? [...allPositions, ...fixedMessageObject.pronouncePositions, ...fixedMessageObject.pronounceDdPositions, ...fixedMessageObject.pronounceDdsPositions, fixedMessageObject.pronounceDoubleEndPositions]
+                : [...allPositions, ...fixedMessageObject.pronouncePositions, fixedMessageObject.pronounceDoubleEndPositions];
             allPositions = allPositions.slice(-1)[0].length === 0 ? allPositions.slice(0, -1) : allPositions; // 마지막 열 길이가 0이면 비우기;
         }
 
