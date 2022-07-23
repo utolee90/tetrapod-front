@@ -121,22 +121,22 @@ export default {
           //qwerty
         case 1: {
           // 참이면 낱자 정보가 포함된 리스트 출력, 거짓이면 변환된 문장만 출력
-          data.qwertyResult = Tetrapod.qwertyToDubeol(data.qwertySentence, data.convertingOption.qwerty);
+          data.qwertyResult = Tetrapod.qwertyToDubeol(data.qwertySentence, data.convertingOption.qwerty?'parsed': false);
           break;
         }
         case 2: {
           // 참이면 낱자 정보가 포함된 리스트 출력, 거짓이면 변환된 문장만 출력
-          data.antispoofResult = Tetrapod.antispoof(data.antispoofSentence, data.convertingOption.antispoof);
+          data.antispoofResult = Tetrapod.antispoof(data.antispoofSentence, data.convertingOption.antispoof?'parsed': false);
           break;
         }
         case 3: {
           // 참이면 낱자 정보가 포함된 리스트 출력, 거짓이면 변환된 문장만 출력
-          data.pronounceResult = Tetrapod.engToKo(data.pronounceSentence, data.convertingOption.pronounce);
+          data.pronounceResult = Tetrapod.engToKo(data.pronounceSentence, data.convertingOption.pronounce?"parsed": false);
           break;
         }
         case 4: {
           // 참이면 낱자 정보가 포함된 리스트 출력, 거짓이면 변환된 문장만 출력
-          data.dropDoubleResult = Tetrapod.dropDouble(data.dropDoubleSentence, data.convertingOption.dropDouble, data.convertingOption.simplify);
+          data.dropDoubleResult = Tetrapod.dropDouble(data.dropDoubleSentence, data.convertingOption.dropDouble?"parsed": false, data.convertingOption.simplify);
           break;
         }
       }
